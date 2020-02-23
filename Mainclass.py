@@ -61,7 +61,8 @@ def evaluate_text(s, l):
     
     return True
 
-def assign_number(s):
+
+def assign_type(s):
     if s == 'power':
         return 1
     elif s == 'communication':
@@ -78,7 +79,13 @@ def assign_number(s):
         return 7
 
 
+'''
+Array que tiene en el indice [0] el type y en el indice [1] el status
+La funcion del output tiene que evaluar la lista y por cada i escribir
+en el csv file el texto, el type y el status
 
+'''
+#ouputResult = [s, assign_type(s), assign_status(s)]
 
 
 #output code
