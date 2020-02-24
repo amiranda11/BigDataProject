@@ -99,17 +99,17 @@ en el csv file el texto, el type y el status
 '''
 #ouputResult = [[s, assign_type(s), assign_status(s)]]
 
-ouputResult = [[]]
+ouputResult = []
 
 #output code
-#2044
+
 with open('outputResults.csv', mode='w') as csv_file:
     fieldnames = ['ï»¿text', 'disruption_type', 'disruption_status']
     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
     count = 0
     writer.writeheader()
     for results in ouputResult:
-        writer.writerow({'ï»¿text': ouputResult[count]results[0], 
-        'disruption_type': ouputResult[count]results[1], 'disruption_status': ouputResult[count]results[2]})
+        writer.writerow({'ï»¿text': ouputResult[count][0], 
+        'disruption_type': ouputResult[count][1], 'disruption_status': ouputResult[count][2]})
 
 
