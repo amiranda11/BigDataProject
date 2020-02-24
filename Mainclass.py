@@ -21,15 +21,15 @@ with open(file_name) as File:
 '''
     for loop saves every sentences
 '''
+
 sentences = [] #Contains every sentences of each row
 counter = 0
-
 for i in file_tweets:
     sentences.append(file_tweets[counter]['ï»¿text'])
     counter+= 1
 
 
-for i in sentences:
+#for i in sentences:
    #evaluar en las funciones de evaluar texto
 
    
@@ -44,9 +44,8 @@ for i in sentences:
     Disruption Status:
         actual disruption - 1
         not disruption - 0
-"""
 
-'''
+
 tweetlistHR = {'hurricane': [], 'water': [], 'power': [], 'communication': [], 'wastewater': [], 'transportion':[], 'other': []}
 
 tweetlistHR['hurricane'] = ["hurricane Irma", "hurricane"]
@@ -54,7 +53,10 @@ tweetlistHR['water'] = ["bottle of water", "drinking water", "water", "bottled w
 tweetlistHR['power'] = ["power off", "power down", "lost power", "fallen power service", 
                 "fallen power cables", "fallen power spot", "power back", "power is back",
                 ]
-'''
+
+"""
+"""
+
 def evaluate_text(s):
     rslt = []
     founded = False
@@ -70,7 +72,7 @@ def evaluate_text(s):
                 '''
     
     return True
-
+"""
 
 def assign_type(s):
     if s == 'power':
@@ -95,9 +97,19 @@ La funcion del output tiene que evaluar la lista y por cada i escribir
 en el csv file el texto, el type y el status
 
 '''
-#ouputResult = [s, assign_type(s), assign_status(s)]
+#ouputResult = [[s, assign_type(s), assign_status(s)]]
 
+ouputResult = [[]]
 
 #output code
+#2044
+with open('outputResults.csv', mode='w') as csv_file:
+    fieldnames = ['ï»¿text', 'disruption_type', 'disruption_status']
+    writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+    count = 0
+    writer.writeheader()
+    for results in ouputResult:
+        writer.writerow({'ï»¿text': ouputResult[count]results[0], 
+        'disruption_type': ouputResult[count]results[1], 'disruption_status': ouputResult[count]results[2]})
 
 
