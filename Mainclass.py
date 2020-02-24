@@ -17,17 +17,22 @@ with open(file_name) as File:
     reader = csv.DictReader(File)
     for row in reader:
         file_tweets.append(row)
+        
 '''
     for loop saves every sentences
 '''
 sentences = [] #Contains every sentences of each row
 counter = 0
+
 for i in file_tweets:
     sentences.append(file_tweets[counter]['ï»¿text'])
     counter+= 1
 
 
+for i in sentences:
+   #evaluar en las funciones de evaluar texto
 
+   
 #Text Analysis
 """
     Disruption Type: 
@@ -50,14 +55,19 @@ tweetlistHR['power'] = ["power off", "power down", "lost power", "fallen power s
                 "fallen power cables", "fallen power spot", "power back", "power is back",
                 ]
 '''
-def evaluate_text(s, l):
+def evaluate_text(s):
     rslt = []
     founded = False
     for word in s.split():
+        if(word == 'power'):
+            return True
+
+        '''
         for i in l:
             if(word == i):
                 founded = True
                 return 
+                '''
     
     return True
 
