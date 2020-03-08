@@ -28,9 +28,11 @@ for i in file_tweets:
     sentences.append(file_tweets[counter]['ï»¿text'])
     counter+= 1
 
-
-#for i in sentences:
-   #evaluar en las funciones de evaluar texto
+index = 0
+for i in sentences:
+    rst = i.split(" ")
+    print(rst)
+    index +=1
 
    
 #Text Analysis
@@ -53,26 +55,55 @@ tweetlistHR['water'] = ["bottle of water", "drinking water", "water", "bottled w
 tweetlistHR['power'] = ["power off", "power down", "lost power", "fallen power service", 
                 "fallen power cables", "fallen power spot", "power back", "power is back",
                 ]
-
 """
-"""
-
+#Identificando el tipo encontrando la palabra clave
 def evaluate_text(s):
-    rslt = []
-    founded = False
-    for word in s.split():
+    type = []
+    index = 0
+    sentce =s.split()
+    for word in sentce:
         if(word == 'power'):
-            return True
+            type = analyzePower(sentce, index)
+        elif (word == 'water'):
+            type = analyzeWater(sentce, index)
+        elif (word == 'wastewater'):
+            type = analyzeWater(sentce, index)
+        elif(word == 'hurricane'):
+            type = analyzeHurricane(sentce, index)
+        elif( word == 'Irma'):
+            type = analyzeHurricane(sentce, index)
+        elif(word == 'transportation'):
+            type = analyzeTransportation(sentce, index)
+        elif(word == 'bridge'):
+            type = analyzeTransportation(sentce, index)
+        elif(word == 'road'):
+            type = analyzeTransportation(sentce, index)
+        else:
+            type = analyzeOther(sentce, index)
+        index += 1
+    return type
 
-        '''
-        for i in l:
-            if(word == i):
-                founded = True
-                return 
-                '''
+
+
+def analyzePower(s, index):
+    if(s[index-1 or s[index+1]] == "not" or "off or down"):
+        return [1,1]
+    else:
+        return [1, 0]
+
+          
+def analyzeWater(s, index):
+    return [1, 0]
     
-    return True
-"""
+def analyzeTransportation(s, index):
+    return [1, 0]
+    
+def analyzeHurricane(s, index):
+    return [1, 0]
+    
+def analyzeOther(s, index):
+    return [1, 0]
+
 
 def assign_type(s):
     if s == 'power':
@@ -111,5 +142,3 @@ with open('outputResults.csv', mode='w') as csv_file:
     for results in ouputResult:
         writer.writerow({'ï»¿text': ouputResult[count][0], 
         'disruption_type': ouputResult[count][1], 'disruption_status': ouputResult[count][2]})
-
-
