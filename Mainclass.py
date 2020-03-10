@@ -4,6 +4,7 @@
 #imports
 import csv
 
+#from sklearn.feature_extraction.text import CountVectorizer
 
 #input code
 file_tweets = []
@@ -27,7 +28,6 @@ for i in file_tweets:
     counter+= 1
 
 #MainClass 
-
     
 
 #Text Analysis
@@ -43,81 +43,136 @@ for i in file_tweets:
         not disruption - 0
 
 """
-#Identificando el tipo encontrando la palabra clave
-def evaluate_text(s):
-    type = []
-    index = 0
+def clean_txt(s):
     sentce = s.split(" ")
-    blocked = [ '' ,'me' , 'you' , 'us' , 'we' , 'I' , 'are' , 'if', 'the' , 'or' , 'in', 'are' , 'is' , '!' , '?' , '@']
+    blocked = [ '' ,"me", "Me" , "you" , "us" , "we" , "I","u", "they", "are", "they're", "if", "the", "an", "a"
+    'or' , 'in', 'are' , 'is' , '!' , '?' , '@', "It's", "my", "go", "to", "of",  "like"]
+    index = 0
     for word in sentce:
         #Ignoring me, the, of, /n or ''
         for i in blocked:
             if(word == i):
-            continue
-        #Analyzing the key words
-        if(word == 'power'):
-            type = analyzePower(s,sentce, index)
-        elif (word == 'internet'):
-            type = analyzeCommunication(s,sentce, index)
-        elif (word == 'signal'):
-            type = analyzeCommunication(s,sentce, index)
-        elif (word == 'tv'):
-            type = analyzeCommunication(s,sentce, index)
-        elif (word == 'water'):
-            type = analyzeWater(s, sentce, index)
-        elif (word == 'wastewater'):
-            type = analyzeWasteWater(s, sentce, index)
-        elif (word == 'drainage' ):
-            type = analyzeWasteWater(s, sentce, index)
-        elif (word == 'evac'):
-            type = analyzeWasteWater(s, sentce, index)
-        elif (word == 'evacuation'):
-            type = analyzeWasteWater(s, sentce, index)
-        elif(word == 'transportation'):
-            type = analyzeTransportation(s, sentce, index)
-        elif(word == 'vehicular'):
-            type = analyzeTransportation(s, sentce, index)
-        elif(word == 'trafic'):
-            type = analyzeTransportation(s, sentce, index)
-        elif(word == 'bridge'):
-            type = analyzeTransportation(s, sentce, index)
-        elif(word == 'road'):
-            type = analyzeTransportation(s, sentce, index)
-        else:
-            pass
-    #type = analyzeOther(s, sentce)
-    index+=1
+                sentce.pop(index)
+        index+=1
+    return sentce
+
+
+
+
+
+#Identificando el tipo encontrando la palabra clave
+def evaluate_text(s,sentce, tag):
+    #Analyzing the key words
+    if(tag[0] == "power"):
+        type = analyzePower(s,sentce, tag[1])
+    elif (tag[0] == "communication"):
+        type = analyzeCommunication(s,sentce, tag[1])
+    elif (tag[0] == "water"):
+        type = analyzeWater(s, sentce, tag[1])
+    elif (tag[0] == "wastewater"):
+        type = analyzeWasteWater(s, sentce, tag[1])
+    elif(tag[0] == 'transportation'):
+        type = analyzeTransportation(s, sentce, tag[1])
+    else:
+        type = analyzeOther(s, sentce)
+
     return type
-        
 
+#Tagging
+def tagging(txt):
+    result = []
+    index = 0
+    for word in txt:
+        if(word == 'power'):
+            return ["power", index]
+        elif (word == 'internet'):
+            return ["communication", index]
+        elif (word == 'signal'):
+            return  ["communication", index]
+        elif (word == 'tv'):
+             return["communication", index]
+        elif (word == 'water'):
+            return   ["water", index]
+        elif (word == 'wastewater'):
+            return   ["wastewater", index]
+        elif (word == 'drainage' ):
+            return   ["wastewater", index]
+        elif (word == 'evac'):
+            return   ["wastewater", index]
+        elif (word == 'evacuation'):
+            return   ["wastewater", index]
+        elif(word == 'transportation'):
+            return   ["transportation", index]
+        elif(word == 'vehicular'):
+            return  ["transportation", index]
+        elif(word == 'trafic'):
+            return  ["transportation", index]
+        elif(word == 'bridge'):
+            return ["transportation", index]
+        elif(word == 'road'):
+            return ["transportation", index]
+        else:
+            index+=1
+            result = ["other", index]
+    
+    return result
 
+#Analisis
 # Power - 1
 def analyzePower(txt, s, index):
-    if(s[index-1] or s[index+1] == "not" or "off" or "down" or "fallen" or "cables" or "service" or "lost"):
+    #negative
+    if(s[index-1]  == "not"):
         return [txt, 1,1]
-    elif(s[index-1] or s[index+1] == "back"):
+    elif(s[index+1]  == "not"):
+        return [txt, 1,1]
+    elif(s[index-1]  == "off"):
+        return [txt, 1,1]
+    elif(s[index+1]  == "off" ):
+        return [txt, 1,1]
+    elif(s[index-1]  == "down"):
+        return [txt, 1,1]
+    elif(s[index+1]  == "down"):
+        return [txt, 1,1]
+    elif(s[index-1]  == "fallen"):
+        return [txt, 1,1]
+    elif(s[index+1]  == "fallen"):
+        return [txt, 1,1]
+    elif(s[index-1]  == "without"):
+        return [txt, 1,1]
+    elif(s[index-1]  == "lost"):
+        return [txt, 1,1]
+    #positive 
+    elif(s[index-1] == "back"):
         return [txt, 1,0]
-    elif(s[index-1] or s[index+1] == "back"):
+    elif(s[index+1] == "back"):
         return [txt, 1,0]
-    elif(s[index-1] == "have" or s[index+1] == "back"):
+    elif(s[index-1] == "have"):
+        return [txt, 1,0]
+    elif(s[index+1] == "back"):
         return [txt, 1,0]
     else:
-        return [txt, 7,0]
+        return [txt,1 ,0]
 
 # Communication - 2   
 def analyzeCommunication(txt, s, index):
-    if(s[index-1] or s[index+1] == "no" or "issue"):
+    if(s[index-1] == "no"):
+        return [txt, 2, 1]
+    elif(s[index-1] == "issue"):
         return [txt, 2, 1]
     else:
         return [txt, 2, 0]
 
 # Water - 3
 def analyzeWater(txt, s, index):
-    if(s[index -2] or s[index-1] == "bottle" or " bottled"):
+    if(s[index-1] == "bottle"):
+        if(s[index -3] == "last"):
+            return [txt, 3,1]
+    elif(s[index-1] == " bottled"):
         if(s[index -3] == "last"):
             return [txt, 3,1]
     else:
         return [txt, 3, 0]
+
 # Wastewater - 4   
 # Mejorar 
 def analyzeWasteWater(txt,s, index):
@@ -147,7 +202,9 @@ def analyzeTransportation(txt,s, index):
 #Other but hurricanre relate- 6; Not hurricane relate - 7
 def analyzeOther(txt, s):
     for word in s:
-        if(word == "Hurricane" or "Irma"):
+        if(word == "Hurricane"):
+            return [txt, 6, 0]
+        elif(word == "storm"):
             return [txt, 6, 0]
         else:
             return [txt, 7, 0]
@@ -163,7 +220,9 @@ outputResult = []
 #Main
 index = 0
 for i in sentences:
-    outputResult.append(evaluate_text(i))
+    cleanedtxt = clean_txt(i)
+    tag = tagging(cleanedtxt)
+    outputResult.append(evaluate_text(i, cleanedtxt, tag))
 
 
 for i in outputResult:
