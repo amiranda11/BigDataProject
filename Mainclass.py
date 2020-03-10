@@ -44,7 +44,8 @@ for i in file_tweets:
 
 """
 def clean_txt(s):
-    sentce = s.split(" ")
+    s = s.lower()
+    sentce =s.split(" ")
     blocked = [ '' ,"me", "Me" , "you" , "us" , "we" , "I","u", "they", "are", "they're", "if", "the", "an", "a"
     'or' , 'in', 'are' , 'is' , '!' , '?' , '@', "It's", "my", "go", "to", "of",  "like"]
     index = 0
@@ -123,33 +124,16 @@ def analyzePower(txt, s, index):
     #negative
     if(s[index-1]  == "not"):
         return [txt, 1,1]
-    elif(s[index+1]  == "not"):
-        return [txt, 1,1]
     elif(s[index-1]  == "off"):
-        return [txt, 1,1]
-    elif(s[index+1]  == "off" ):
         return [txt, 1,1]
     elif(s[index-1]  == "down"):
         return [txt, 1,1]
-    elif(s[index+1]  == "down"):
-        return [txt, 1,1]
     elif(s[index-1]  == "fallen"):
-        return [txt, 1,1]
-    elif(s[index+1]  == "fallen"):
         return [txt, 1,1]
     elif(s[index-1]  == "without"):
         return [txt, 1,1]
     elif(s[index-1]  == "lost"):
         return [txt, 1,1]
-    #positive 
-    elif(s[index-1] == "back"):
-        return [txt, 1,0]
-    elif(s[index+1] == "back"):
-        return [txt, 1,0]
-    elif(s[index-1] == "have"):
-        return [txt, 1,0]
-    elif(s[index+1] == "back"):
-        return [txt, 1,0]
     else:
         return [txt,1 ,0]
 
@@ -167,7 +151,7 @@ def analyzeWater(txt, s, index):
     if(s[index-1] == "bottle"):
         if(s[index -3] == "last"):
             return [txt, 3,1]
-    elif(s[index-1] == " bottled"):
+    elif(s[index-1] == "bottled"):
         if(s[index -3] == "last"):
             return [txt, 3,1]
     else:
@@ -176,11 +160,11 @@ def analyzeWater(txt, s, index):
 # Wastewater - 4   
 # Mejorar 
 def analyzeWasteWater(txt,s, index):
-    if(s[index -2] or s[index-1] == "bottle" or " bottled"):
+    if(s[index -1] == "bottle" ):
         if(s[index -3] == "last"):
-            return [txt, 3,1]
+            return [txt, 4,1]
     else:
-        return [txt, 3, 0]
+        return [txt, 4, 0]
 
 #Transportation - 5    
 def analyzeTransportation(txt,s, index):
@@ -230,13 +214,13 @@ for i in outputResult:
 
 #output code
 
-'''
+
 with open('outputResults.csv', mode='w') as csv_file:
     fieldnames = ['ï»¿text', 'disruption_type', 'disruption_status']
     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
     count = 0
     writer.writeheader()
     for results in outputResult:
-        writer.writerow({'ï»¿text': outputResult[count][0], 
-        'disruption_type': outputResult[count][1], 'disruption_status': outputResult[count][2]})
-'''
+        writer.writerow({'ï»¿text': outputResult[count][0], 'disruption_type': outputResult[count][1], 'disruption_status': outputResult[count][2]})
+        count+=1
+      
