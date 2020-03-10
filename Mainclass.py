@@ -86,6 +86,8 @@ def tagging(txt):
     for word in txt:
         if(word == 'power'):
             return ["power", index]
+        elif(word == 'generator'):
+            return ["power", index]
         elif (word == 'internet'):
             return ["communication", index]
         elif (word == 'signal'):
@@ -132,8 +134,11 @@ def analyzePower(txt, s, index):
         return [txt, 1,1]
     elif(s[index-1]  == "without"):
         return [txt, 1,1]
+    elif(s[index-1]  == "out"):
+        return [txt, 1,1]
     elif(s[index-1]  == "lost"):
         return [txt, 1,1]
+    #falta los que tienen word= power pero no son hurricane related
     else:
         return [txt,1 ,0]
 
