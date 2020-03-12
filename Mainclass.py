@@ -109,11 +109,9 @@ def tagging(txt):
             return   ["transportation", index]
         elif(word == 'vehicular'):
             return  ["transportation", index]
-        elif(word == 'trafic'):
+        elif(word == 'traffic'):
             return  ["transportation", index]
         elif(word == 'bridge'):
-            return ["transportation", index]
-        elif(word == 'road'):
             return ["transportation", index]
         else:
             result = ["other", index]
@@ -125,6 +123,8 @@ def tagging(txt):
 def analyzePower(txt, s, index):
     #negative
     if(s[index-1]  == "not"):
+        return [txt, 1,1]
+    elif(s[index-1]  == "no"):
         return [txt, 1,1]
     elif(s[index-1]  == "off"):
         return [txt, 1,1]
@@ -147,6 +147,14 @@ def analyzeCommunication(txt, s, index):
     if(s[index-1] == "no"):
         return [txt, 2, 1]
     elif(s[index-1] == "issue"):
+        return [txt, 2, 1]
+    elif(s[index-1] == "issues"):
+        return [txt, 2, 1]
+    elif(s[index+1] == "no"):
+        return [txt, 2, 1]
+    elif(s[index+1] == "issue"):
+        return [txt, 2, 1]
+    elif(s[index+1] == "issues"):
         return [txt, 2, 1]
     else:
         return [txt, 2, 0]
@@ -176,17 +184,40 @@ def analyzeWasteWater(txt,s, index):
 #Transportation - 5    
 def analyzeTransportation(txt,s, index):
     if(s[index] == "bridge"):
-        if(s[index-1] or s[index+1] == "closed" or "collapsed" or "fallen"):
+        if(s[index-1] == "closed"):
+            return [txt, 5,1]
+        elif(s[index-1] == "collapsed"):
+            return [txt, 5,1]
+        elif(s[index-1] == "fallen"):
+            return [txt, 5,1]
+        elif(s[index+1] == "closed"):
+            return [txt, 5,1]
+        elif(s[index+1] == "collapsed"):
+            return [txt, 5,1]
+        elif(s[index+1] == "fallen"):
             return [txt, 5,1]
         else:
-            return[txt, 5,0]
+            return [txt, 5, 0]
+
     elif(s[index] == "traffic"):
-        if(s[index-1] or s[index+1] == "unnecessary" or "congestion" or "fallen"):
+        if(s[index-1] == "unnecessary"):
+            return [txt, 5,1]
+        elif(s[index-1] == "congestion"):
+            return [txt, 5,1]
+        elif(s[index-1] == "fallen"):
+            return [txt, 5,1]
+        elif(s[index+1] == "unnecessary"):
+            return [txt, 5,1]
+        elif(s[index+1] == "congestion"):
+            return [txt, 5,1]
+        elif(s[index+1] == "fallen"):
             return [txt, 5,1]
         else:
             return[txt, 5,0]
+
     elif(s[index] == "highway"):
         return [txt, 5, 0]
+
     else:
         return [txt, 5, 0]
     
