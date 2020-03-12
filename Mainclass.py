@@ -138,6 +138,8 @@ def analyzePower(txt, s, index):
         return [txt, 1,1]
     elif(s[index-1]  == "lost"):
         return [txt, 1,1]
+    elif(s[index-1]  == "flickers"):
+        return [txt, 1,1]
     #falta los que tienen word= power pero no son hurricane related
     else:
         return [txt,1 ,0]
