@@ -43,11 +43,12 @@ for i in file_tweets:
         not disruption - 0
 
 """
+
 def clean_txt(s):
     s = s.lower()
     sentce =s.split(" ")
     blocked = [ '' ,"me", "Me" , "you" , "us" , "we" , "I","u", "they", "are", "they're", "if", "the", "an", "a"
-    'or' , 'in', 'are' , 'is' , '!' , '?' , '@', "It's", "my", "go", "to", "of",  "like"]
+    'or' , 'in', 'are' , 'is' , '!' , '?' , '@', "It's", "my", "to", "of",  "like"]
     index = 0
     for word in sentce:
         #Ignoring me, the, of, /n or ''
@@ -115,9 +116,8 @@ def tagging(txt):
         elif(word == 'road'):
             return ["transportation", index]
         else:
-            index+=1
             result = ["other", index]
-    
+        index+=1
     return result
 
 #Analisis
@@ -151,6 +151,7 @@ def analyzeCommunication(txt, s, index):
     else:
         return [txt, 2, 0]
 
+
 # Water - 3
 def analyzeWater(txt, s, index):
     if(s[index-1] == "bottle"):
@@ -159,6 +160,7 @@ def analyzeWater(txt, s, index):
     elif(s[index-1] == "bottled"):
         if(s[index -3] == "last"):
             return [txt, 3,1]
+        return [txt, 3, 0]
     else:
         return [txt, 3, 0]
 
@@ -217,9 +219,9 @@ for i in sentences:
 for i in outputResult:
     print (i)
 
+
+
 #output code
-
-
 with open('outputResults.csv', mode='w') as csv_file:
     fieldnames = ['ï»¿text', 'disruption_type', 'disruption_status']
     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
